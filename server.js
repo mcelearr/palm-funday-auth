@@ -1,11 +1,16 @@
 const hapi = require('hapi');
 const inert = require('inert');
 const path = require('path');
+const fs = require('fs');
 
 const server = new hapi.Server();
 
 server.connection({
-  port: 4000
+  port: 4000,
+  tls: {
+    key: fs.readFileSync('./keys/key.pem'),
+    cert: fs.readFileSync('./keys/cert.pem')
+  }
 });
 
 server.register(inert, (err) => {
